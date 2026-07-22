@@ -24,6 +24,9 @@ import reportRoutes from "./routes/report.routes";
 
 import activityRoutes from "./routes/activity.routes";
 
+import path from "path";
+import uploadRoutes from "./routes/upload.routes";
+
 const app = express();
 
 app.use(cors());
@@ -41,5 +44,9 @@ app.use("/api/invoices", invoiceRoutes);
 app.use("/api/payments", paymentRoutes);
 app.use("/api/reports", reportRoutes);
 app.use("/api/activity", activityRoutes);
+
+app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
+
+app.use("/api/upload", uploadRoutes);
 
 export default app; 
