@@ -19,11 +19,11 @@ enum Role {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  name      String
-  email     String   @unique
-  password  String
-  role      Role
+  id            String @id @default(cuid())
+  name          String
+  email         String @unique
+  password      String
+  role          Role
   assignedLeads Lead[]
 
   createdAt DateTime @default(now())
@@ -31,15 +31,15 @@ model User {
 }
 
 model Customer {
-  id        String   @id @default(cuid())
-  name      String
-  email     String   @unique
-  phone     String
-  company   String
-  address   String
-  status    String   @default("ACTIVE")
-  leads Lead[]
-  orders Order[]
+  id      String  @id @default(cuid())
+  name    String
+  email   String  @unique
+  phone   String
+  company String
+  address String
+  status  String  @default("ACTIVE")
+  leads   Lead[]
+  orders  Order[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -55,35 +55,35 @@ enum LeadStatus {
 }
 
 model Lead {
-  id          String      @id @default(cuid())
+  id String @id @default(cuid())
 
   title       String
   description String?
 
-  status      LeadStatus  @default(NEW)
+  status LeadStatus @default(NEW)
 
-  customerId  String
-  customer    Customer    @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
 
-  assignedTo  String?
-  salesUser   User?       @relation(fields: [assignedTo], references: [id])
+  assignedTo String?
+  salesUser  User?   @relation(fields: [assignedTo], references: [id])
 
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Product {
-  id          String   @id @default(cuid())
+  id String @id @default(cuid())
 
-  name        String
-  sku         String   @unique
-  price       Float
-  stock       Int
+  name         String
+  sku          String         @unique
+  price        Float
+  stock        Int
   stockHistory StockHistory[]
-  orderItems OrderItem[]
+  orderItems   OrderItem[]
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum StockType {
@@ -92,15 +92,15 @@ enum StockType {
 }
 
 model StockHistory {
-  id        String    @id @default(cuid())
+  id String @id @default(cuid())
 
-  type      StockType
-  quantity  Int
+  type     StockType
+  quantity Int
 
   productId String
-  product   Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 
-  createdAt DateTime  @default(now())
+  createdAt DateTime @default(now())
 }
 
 enum OrderStatus {
@@ -110,48 +110,59 @@ enum OrderStatus {
 }
 
 model Order {
-
-  id         String      @id @default(cuid())
+  id String @id @default(cuid())
 
   customerId String
-  customer   Customer    @relation(fields: [customerId], references: [id])
+  customer   Customer @relation(fields: [customerId], references: [id])
 
-  status     OrderStatus @default(PENDING)
+  status OrderStatus @default(PENDING)
 
-  total      Float
+  total Float
 
-  items       OrderItem[]
+  items   OrderItem[]
   invoice Invoice?
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model OrderItem {
+  id String @id @default(cuid())
 
-  id         String   @id @default(cuid())
+  orderId String
+  order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
 
-  orderId    String
-  order      Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
 
-  productId  String
-  product    Product  @relation(fields: [productId], references: [id])
-
-  quantity   Int
-  price      Float
-
+  quantity Int
+  price    Float
 }
 
 model Invoice {
-  id         String   @id @default(cuid())
+  id String @id @default(cuid())
 
-  orderId    String   @unique
-  order      Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId String @unique
+  order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
 
-  invoiceNo  String   @unique
-  amount     Float
-  paid       Boolean  @default(false)
+  invoiceNo String    @unique
+  amount    Float
+  paid      Boolean   @default(false)
+  payments  Payment[]
 
-  createdAt  DateTime @default(now())
+  createdAt DateTime @default(now())
+}
+
+model Payment {
+  id String @id @default(cuid())
+
+  invoiceId String
+  invoice   Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+
+  amount        Float
+  method        String
+  transactionId String
+  
+
+  createdAt DateTime @default(now())
 }
