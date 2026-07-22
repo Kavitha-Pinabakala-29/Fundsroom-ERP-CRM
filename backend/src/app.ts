@@ -27,6 +27,8 @@ import activityRoutes from "./routes/activity.routes";
 import path from "path";
 import uploadRoutes from "./routes/upload.routes";
 
+import emailRoutes from "./routes/email.routes";
+
 const app = express();
 
 app.use(cors());
@@ -48,5 +50,7 @@ app.use("/api/activity", activityRoutes);
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 app.use("/api/upload", uploadRoutes);
+
+app.use("/api/email", emailRoutes);
 
 export default app; 
