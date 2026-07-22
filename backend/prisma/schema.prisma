@@ -24,6 +24,7 @@ model User {
   email     String   @unique
   password  String
   role      Role
+  assignedLeads Lead[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -37,7 +38,35 @@ model Customer {
   company   String
   address   String
   status    String   @default("ACTIVE")
+  leads Lead[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  NEGOTIATION
+  WON
+  LOST
+}
+
+model Lead {
+  id          String      @id @default(cuid())
+
+  title       String
+  description String?
+
+  status      LeadStatus  @default(NEW)
+
+  customerId  String
+  customer    Customer    @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  assignedTo  String?
+  salesUser   User?       @relation(fields: [assignedTo], references: [id])
+
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
 }
