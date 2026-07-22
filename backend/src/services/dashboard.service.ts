@@ -12,9 +12,33 @@ export const getDashboard = async () => {
         },
     });
 
+    const contactedLeads = await prisma.lead.count({
+        where: {
+            status: "CONTACTED",
+        },
+    });
+
+    const qualifiedLeads = await prisma.lead.count({
+        where: {
+            status: "QUALIFIED",
+        },
+    });
+
+    const negotiationLeads = await prisma.lead.count({
+        where: {
+            status: "NEGOTIATION",
+        },
+    });
+
     const wonLeads = await prisma.lead.count({
         where: {
             status: "WON",
+        },
+    });
+
+    const lostLeads = await prisma.lead.count({
+        where: {
+            status: "LOST",
         },
     });
 
@@ -22,6 +46,11 @@ export const getDashboard = async () => {
         totalCustomers,
         totalLeads,
         newLeads,
+        contactedLeads,
+        qualifiedLeads,
+        negotiationLeads,
         wonLeads,
+        lostLeads,
     };
+
 };
