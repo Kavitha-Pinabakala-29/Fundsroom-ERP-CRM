@@ -78,7 +78,25 @@ model Product {
   sku         String   @unique
   price       Float
   stock       Int
+  stockHistory StockHistory[]
 
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+enum StockType {
+  IN
+  OUT
+}
+
+model StockHistory {
+  id        String    @id @default(cuid())
+
+  type      StockType
+  quantity  Int
+
+  productId String
+  product   Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime  @default(now())
 }
