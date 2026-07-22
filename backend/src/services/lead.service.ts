@@ -67,3 +67,19 @@ export const deleteLead = async (id: string) => {
     };
 
 };
+
+export const updateLeadStatus = async (
+    id: string,
+    status: any
+) => {
+
+    return await prisma.lead.update({
+        where: {
+            id,
+        },
+        data: {
+            status,
+        },
+    });
+
+};

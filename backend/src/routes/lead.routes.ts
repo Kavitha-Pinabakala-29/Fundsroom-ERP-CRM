@@ -11,6 +11,8 @@ import {
 import { authenticate } from "../middleware/auth.middleware";
 import { authorize } from "../middleware/role.middleware";
 
+import { changeStatus } from "../controllers/lead.controller";
+
 const router = Router();
 
 router.post(
@@ -68,4 +70,12 @@ router.delete(
     authorize("ADMIN"),
     remove
 );
+
+router.patch(
+    "/:id/status",
+    authenticate,
+    authorize("ADMIN", "SALES"),
+    changeStatus
+);
+
 export default router;

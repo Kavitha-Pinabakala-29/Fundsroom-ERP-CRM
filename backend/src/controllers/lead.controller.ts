@@ -8,6 +8,9 @@ import {
     updateLead,
     deleteLead
 } from "../services/lead.service";
+
+import { updateLeadStatus } from "../services/lead.service";
+
 export const create = async (
     req: Request,
     res: Response
@@ -113,6 +116,30 @@ export const remove = async (
     } catch (err: any) {
 
         res.status(404).json({
+            message: err.message,
+        });
+
+    }
+
+};
+
+export const changeStatus = async (
+    req: Request,
+    res: Response
+) => {
+
+    try {
+
+        const lead = await updateLeadStatus(
+            req.params.id,
+            req.body.status
+        );
+
+        res.json(lead);
+
+    } catch (err: any) {
+
+        res.status(400).json({
             message: err.message,
         });
 

@@ -8,6 +8,8 @@ import customerRoutes from "./routes/customer.routes";
 
 import leadRoutes from "./routes/lead.routes";
 
+import dashboardRoutes from "./routes/dashboard.routes";
+
 const app = express();
 
 app.use(cors());
@@ -17,5 +19,6 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/customers", customerRoutes);
 app.use("/api/leads", leadRoutes);
+app.use("/api/dashboard", dashboardRoutes);
 
 export default app; 
