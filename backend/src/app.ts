@@ -14,6 +14,8 @@ import productRoutes from "./routes/product.routes";
 
 import stockRoutes from "./routes/stock.routes";
 
+import orderRoutes from "./routes/order.routes";
+
 const app = express();
 
 app.use(cors());
@@ -26,5 +28,6 @@ app.use("/api/leads", leadRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/stock", stockRoutes);
+app.use("/api/orders", orderRoutes);
 
 export default app; 
