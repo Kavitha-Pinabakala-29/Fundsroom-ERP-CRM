@@ -56,7 +56,7 @@ export const getAll = async (
 };
 
 export const getOne = async (
-    req: Request,
+    req: Request<{ id: string }>,
     res: Response
 ) => {
 
@@ -77,7 +77,7 @@ export const getOne = async (
 };
 
 export const update = async (
-    req: Request,
+    req: Request<{ id: string }>,
     res: Response
 ) => {
 
@@ -103,7 +103,7 @@ export const update = async (
 };
 
 export const remove = async (
-    req: Request,
+    req: Request<{ id: string }>,
     res: Response
 ) => {
 
@@ -124,7 +124,7 @@ export const remove = async (
 };
 
 export const changeStatus = async (
-    req: Request,
+    req: Request<{ id: string }>,
     res: Response
 ) => {
 

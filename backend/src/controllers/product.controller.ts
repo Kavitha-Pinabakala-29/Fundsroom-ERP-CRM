@@ -44,7 +44,7 @@ export const getAll = async (
 
 };
 
-export const getOne = async (req: Request, res: Response) => {
+export const getOne = async (req: Request<{ id: string }>, res: Response) => {
 
     const product = await getProductById(req.params.id);
 
@@ -58,14 +58,14 @@ export const getOne = async (req: Request, res: Response) => {
 
 };
 
-export const update = async (req: Request, res: Response) => {
+export const update = async (req: Request<{ id: string }>, res: Response) => {
 
     try {
 
         const data = productSchema.parse(req.body);
 
         const product = await updateProduct(
-            req.params.id,
+            req.params.id!,
             data
         );
 
@@ -81,7 +81,7 @@ export const update = async (req: Request, res: Response) => {
 
 };
 
-export const remove = async (req: Request, res: Response) => {
+export const remove = async (req: Request<{ id: string }>, res: Response) => {
 
     const result = await deleteProduct(req.params.id);
 
@@ -89,10 +89,10 @@ export const remove = async (req: Request, res: Response) => {
 
 };
 
-export const stock = async (req: Request, res: Response) => {
+export const stock = async (req: Request<{ id: string }>, res: Response) => {
 
     const product = await updateStock(
-        req.params.id,
+        req.params.id!,
         req.body.stock
     );
 

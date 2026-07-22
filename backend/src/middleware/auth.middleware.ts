@@ -24,12 +24,18 @@ export const authenticate = (
 
     const token = authHeader.split(" ")[1];
 
+    if (!token) {
+        return res.status(401).json({
+            message: "Token missing",
+        });
+    }
+
     try {
 
         const decoded = jwt.verify(
             token,
             process.env.JWT_SECRET!
-        ) as {
+        ) as unknown as {
             id: string;
             role: string;
         };

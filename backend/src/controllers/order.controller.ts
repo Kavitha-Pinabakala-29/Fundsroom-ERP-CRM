@@ -8,7 +8,6 @@ import {
     createOrder,
     getOrders,
     getOrderById,
-    updateStatus,
     deleteOrder,
 } from "../services/order.service";
 
@@ -38,7 +37,7 @@ export const getAll = async (req: Request, res: Response) => {
 
 };
 
-export const getOne = async (req: Request, res: Response) => {
+export const getOne = async (req: Request<{ id: string }>, res: Response) => {
 
     try {
 
@@ -54,11 +53,11 @@ export const getOne = async (req: Request, res: Response) => {
 
 };
 
-export const update = async (req: Request, res: Response) => {
+export const update = async (req: Request<{ id: string }>, res: Response) => {
 
     try {
 
-        const order = await updateStatus(
+        const order = await updateOrderStatus(
             req.params.id,
             req.body.status
         );
@@ -75,7 +74,7 @@ export const update = async (req: Request, res: Response) => {
 
 };
 
-export const remove = async (req: Request, res: Response) => {
+export const remove = async (req: Request<{ id: string }>, res: Response) => {
 
     try {
 
@@ -92,7 +91,7 @@ export const remove = async (req: Request, res: Response) => {
 };
 
 export const updateStatus = async (
-    req: Request,
+    req: Request<{ id: string }>,
     res: Response
 ) => {
 

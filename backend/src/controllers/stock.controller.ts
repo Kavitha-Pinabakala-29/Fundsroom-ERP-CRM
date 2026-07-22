@@ -55,7 +55,7 @@ export const stockOutController = async (
 };
 
 export const history = async (
-    req: Request,
+    req: Request<{ productId: string }>,
     res: Response
 ) => {
 

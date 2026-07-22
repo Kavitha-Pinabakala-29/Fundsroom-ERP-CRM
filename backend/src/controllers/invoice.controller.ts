@@ -23,7 +23,7 @@ export const getAll = async (_req: Request, res: Response) => {
 
 };
 
-export const pay = async (req: Request, res: Response) => {
+export const pay = async (req: Request<{ id: string }>, res: Response) => {
 
     try {
         res.json(await markPaid(req.params.id));

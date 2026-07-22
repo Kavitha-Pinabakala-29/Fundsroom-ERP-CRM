@@ -55,7 +55,7 @@ export const getAll = async (
 };
 
 export const getById = async (
-    req: Request,
+    req: Request<{ id: string }>,
     res: Response
 ) => {
 
@@ -71,7 +71,7 @@ export const getById = async (
 };
 
 export const update = async (
-    req: Request,
+    req: Request<{ id: string }>,
     res: Response
 ) => {
 
@@ -86,7 +86,7 @@ export const update = async (
 };
 
 export const remove = async (
-    req: Request,
+    req: Request<{ id: string }>,
     res: Response
 ) => {
 
