@@ -25,6 +25,7 @@ model User {
   password      String
   role          Role
   assignedLeads Lead[]
+  activityLogs ActivityLog[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -163,6 +164,19 @@ model Payment {
   method        String
   transactionId String
   
+
+  createdAt DateTime @default(now())
+}
+
+model ActivityLog {
+  id        String   @id @default(cuid())
+
+  action    String
+  entity    String
+  entityId  String
+
+  userId    String
+  user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
 }

@@ -22,6 +22,8 @@ import paymentRoutes from "./routes/payment.routes";
 
 import reportRoutes from "./routes/report.routes";
 
+import activityRoutes from "./routes/activity.routes";
+
 const app = express();
 
 app.use(cors());
@@ -38,5 +40,6 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/invoices", invoiceRoutes);
 app.use("/api/payments", paymentRoutes);
 app.use("/api/reports", reportRoutes);
+app.use("/api/activity", activityRoutes);
 
 export default app; 
