@@ -53,4 +53,8 @@ app.use("/api/upload", uploadRoutes);
 
 app.use("/api/email", emailRoutes);
 
+app.get("/", (req, res) => {
+  res.send("Fundsroom ERP CRM Backend is running 🚀");
+});
+
 export default app; 
