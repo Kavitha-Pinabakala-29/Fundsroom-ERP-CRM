@@ -121,6 +121,7 @@ model Order {
   total      Float
 
   items       OrderItem[]
+  invoice Invoice?
 
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -140,4 +141,17 @@ model OrderItem {
   quantity   Int
   price      Float
 
+}
+
+model Invoice {
+  id         String   @id @default(cuid())
+
+  orderId    String   @unique
+  order      Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  invoiceNo  String   @unique
+  amount     Float
+  paid       Boolean  @default(false)
+
+  createdAt  DateTime @default(now())
 }
