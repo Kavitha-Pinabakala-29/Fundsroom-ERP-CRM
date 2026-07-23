@@ -1,15 +1,17 @@
 import { Request, Response } from "express";
 
-import { leadSchema } from "../validations/lead.validation";
+import {
+    leadSchema,
+    leadStatusSchema
+} from "../validations/lead.validation";
 import {
     createLead,
     getLeads,
     getLeadById,
     updateLead,
-    deleteLead
+    deleteLead,
+    updateLeadStatus
 } from "../services/lead.service";
-
-import { updateLeadStatus } from "../services/lead.service";
 
 export const create = async (
     req: Request,
@@ -126,16 +128,21 @@ export const remove = async (
 export const changeStatus = async (
     req: Request<{ id: string }>,
     res: Response
-) => {
+    ) => {
 
     try {
 
+        const { status } = leadStatusSchema.parse(req.body);
+
+
         const lead = await updateLeadStatus(
             req.params.id,
-            req.body.status
+            status
         );
 
+
         res.json(lead);
+
 
     } catch (err: any) {
 
@@ -144,5 +151,4 @@ export const changeStatus = async (
         });
 
     }
-
 };

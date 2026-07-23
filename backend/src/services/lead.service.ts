@@ -13,9 +13,16 @@ export const createLead = async (data: LeadInput) => {
 
 export const getLeads = async () => {
     return await prisma.lead.findMany({
-        include: {
-            customer: true,
-            salesUser: true,
+        include:{
+            customer:true,
+            salesUser:{
+                select:{
+                    id:true,
+                    name:true,
+                    email:true,
+                    role:true
+                }
+            }
         },
         orderBy: {
             createdAt: "desc",
@@ -67,19 +74,27 @@ export const deleteLead = async (id: string) => {
     };
 
 };
-
 export const updateLeadStatus = async (
     id: string,
-    status: any
+    status:
+        | "NEW"
+        | "CONTACTED"
+        | "QUALIFIED"
+        | "NEGOTIATION"
+        | "WON"
+        | "LOST"
 ) => {
 
     return await prisma.lead.update({
+
         where: {
             id,
         },
+
         data: {
             status,
         },
+
     });
 
 };

@@ -5,15 +5,16 @@ import {
     getAll,
     getOne,
     update,
-    remove
+    remove,
+    changeStatus
 } from "../controllers/lead.controller";
 
 import { authenticate } from "../middleware/auth.middleware";
 import { authorize } from "../middleware/role.middleware";
 
-import { changeStatus } from "../controllers/lead.controller";
 
 const router = Router();
+
 
 router.post(
     "/",
@@ -22,6 +23,7 @@ router.post(
     create
 );
 
+
 router.get(
     "/",
     authenticate,
@@ -29,26 +31,6 @@ router.get(
     getAll
 );
 
-router.get(
-    "/:id",
-    authenticate,
-    authorize("ADMIN", "SALES"),
-    getOne
-);
-
-router.put(
-    "/:id",
-    authenticate,
-    authorize("ADMIN", "SALES"),
-    update
-);
-
-router.delete(
-    "/:id",
-    authenticate,
-    authorize("ADMIN"),
-    remove
-);
 
 router.get(
     "/:id",
@@ -57,6 +39,7 @@ router.get(
     getOne
 );
 
+
 router.put(
     "/:id",
     authenticate,
@@ -64,12 +47,14 @@ router.put(
     update
 );
 
+
 router.delete(
     "/:id",
     authenticate,
     authorize("ADMIN"),
     remove
 );
+
 
 router.patch(
     "/:id/status",
@@ -77,5 +62,6 @@ router.patch(
     authorize("ADMIN", "SALES"),
     changeStatus
 );
+
 
 export default router;
