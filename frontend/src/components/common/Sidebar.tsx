@@ -42,6 +42,7 @@ export default function Sidebar() {
         <NavLink to="/payments">Payments</NavLink><br />
         <NavLink to="/reports">Reports</NavLink><br />
         <NavLink to="/activity">Activity</NavLink><br />
+        <NavLink to="/notifications">Notifications</NavLink><br />
         <NavLink to="/settings">Settings</NavLink><br />
         <NavLink to="/stock">Stock</NavLink>
         <button

@@ -12,7 +12,7 @@ import Reports from "../pages/reports/Reports";
 import Activity from "../pages/activity/Activity";
 import Settings from "../pages/settings/Settings";
 import Stock from "../pages/stock/Stock";
-
+import Notifications from "../pages/notifications/Notifications";
 import ProtectedRoute from "./ProtectedRoute";
 
 export default function AppRoutes() {
@@ -118,6 +118,15 @@ export default function AppRoutes() {
           element={
             <ProtectedRoute>
               <Stock />
+            </ProtectedRoute>
+          }
+        />
+        
+        <Route
+          path="/notifications"
+          element={
+            <ProtectedRoute>
+              <Notifications />
             </ProtectedRoute>
           }
         />
