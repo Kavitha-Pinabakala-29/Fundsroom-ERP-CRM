@@ -61,7 +61,9 @@ export default function Customers() {
 
       <DeleteCustomerDialog
         open={deleteOpen}
+        customer={selectedCustomer}
         onClose={() => setDeleteOpen(false)}
+        onSuccess={loadCustomers}
       />
 
       <CustomerTable
