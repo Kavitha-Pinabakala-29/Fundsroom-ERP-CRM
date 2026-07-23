@@ -1,14 +1,3 @@
-export interface DashboardData {
-  totalCustomers: number;
-  totalLeads: number;
-  newLeads: number;
-  contactedLeads: number;
-  qualifiedLeads: number;
-  negotiationLeads: number;
-  wonLeads: number;
-  lostLeads: number;
-}
-
 export interface DashboardStats {
   customers: number;
   products: number;
@@ -18,12 +7,27 @@ export interface DashboardStats {
   revenue: number;
 }
 
-export interface MonthlyRevenue {
+export interface RevenueData {
   month: string;
   revenue: number;
 }
 
 export interface OrderStatus {
-  status: string;
-  count: number;
+  name: string;
+  value: number;
+}
+
+export interface RecentOrder {
+  id: string;
+  total: number;
+
+  customer: {
+    name: string;
+  };
+}
+
+export interface RecentCustomer {
+  id: string;
+  name: string;
+  email: string;
 }

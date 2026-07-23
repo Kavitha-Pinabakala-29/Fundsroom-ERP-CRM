@@ -74,7 +74,7 @@ export default function Dashboard() {
 
       <DashboardCards stats={stats} />
 
-      <div className="mt-8 grid grid-cols-2 gap-6">
+      <div className="mt-8 grid grid-cols-1 xl:grid-cols-2 gap-6">
 
         <RevenueChart
           data={revenue}
@@ -86,7 +86,7 @@ export default function Dashboard() {
 
       </div>
 
-      <div className="mt-8 grid grid-cols-2 gap-6">
+      <div className="mt-8 grid grid-cols-1 xl:grid-cols-2 gap-6">
 
         <RecentOrders
           orders={orders}
