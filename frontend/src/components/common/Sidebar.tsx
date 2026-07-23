@@ -34,6 +34,7 @@ export default function Sidebar() {
       <nav className="space-y-2">
 
         <NavLink to="/dashboard">Dashboard</NavLink><br />
+        <NavLink to="/users">Users</NavLink><br />
         <NavLink to="/customers">Customers</NavLink><br />
         <NavLink to="/leads">Leads</NavLink><br />
         <NavLink to="/products">Products</NavLink><br />

@@ -16,6 +16,7 @@ import Notifications from "../pages/notifications/Notifications";
 import ProtectedRoute from "./ProtectedRoute";
 
 import Analytics from "../pages/analytics/Analytics";
+import Users from "../pages/users/Users";
 
 export default function AppRoutes() {
   return (
@@ -138,6 +139,15 @@ export default function AppRoutes() {
           element={
             <ProtectedRoute>
               <Analytics />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/users"
+          element={
+            <ProtectedRoute>
+              <Users />
             </ProtectedRoute>
           }
         />
