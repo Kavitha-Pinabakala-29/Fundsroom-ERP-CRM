@@ -1,28 +1,36 @@
 import { Request, Response } from "express";
 
 import {
-    getSalesReport,
-    getInventoryReport,
+  getDashboardStats,
+  getSalesReport,
+  getProductReport,
+  getCustomerReport,
 } from "../services/report.service";
 
-export const salesReport = async (
-    req: Request,
-    res: Response
+export const dashboard = async (
+  _req: Request,
+  res: Response
 ) => {
-
-    const report = await getSalesReport();
-
-    res.json(report);
-
+  res.json(await getDashboardStats());
 };
 
-export const inventoryReport = async (
-    req: Request,
-    res: Response
+export const sales = async (
+  _req: Request,
+  res: Response
 ) => {
+  res.json(await getSalesReport());
+};
 
-    const report = await getInventoryReport();
+export const products = async (
+  _req: Request,
+  res: Response
+) => {
+  res.json(await getProductReport());
+};
 
-    res.json(report);
-
+export const customers = async (
+  _req: Request,
+  res: Response
+) => {
+  res.json(await getCustomerReport());
 };

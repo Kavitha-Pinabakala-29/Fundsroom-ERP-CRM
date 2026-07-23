@@ -1,48 +1,66 @@
 import prisma from "../config/prisma";
 
-export const getSalesReport = async () => {
+export const getDashboardStats = async () => {
+  const customers = await prisma.customer.count();
 
-    const totalOrders = await prisma.order.count();
+  const products = await prisma.product.count();
 
-    const revenue = await prisma.order.aggregate({
-        _sum: {
-            total: true,
-        },
-    });
+  const orders = await prisma.order.count();
 
-    const paidInvoices = await prisma.invoice.count({
-        where: {
-            paid: true,
-        },
-    });
+  const invoices = await prisma.invoice.count();
 
-    const unpaidInvoices = await prisma.invoice.count({
-        where: {
-            paid: false,
-        },
-    });
+  const payments = await prisma.payment.count();
 
-    return {
-        totalOrders,
-        totalRevenue: revenue._sum.total ?? 0,
-        paidInvoices,
-        unpaidInvoices,
-    };
+  const revenue = await prisma.payment.aggregate({
+    _sum: {
+      amount: true,
+    },
+  });
+
+  return {
+    customers,
+    products,
+    orders,
+    invoices,
+    payments,
+    revenue: revenue._sum.amount ?? 0,
+  };
 };
 
-export const getInventoryReport = async () => {
+export const getSalesReport = async () => {
+  return await prisma.payment.findMany({
+    include: {
+      invoice: true,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+};
 
-    return await prisma.product.findMany({
-        orderBy: {
-            stock: "asc",
-        },
-        select: {
-            id: true,
-            name: true,
-            sku: true,
-            stock: true,
-            price: true,
-        },
-    });
+export const getProductReport = async () => {
+  return await prisma.product.findMany({
+    orderBy: {
+      stock: "asc",
+    },
+  });
+};
 
+export const getCustomerReport = async () => {
+  const customers = await prisma.customer.findMany({
+    include: {
+      orders: true,
+    },
+  });
+
+  return customers.map((customer) => ({
+    id: customer.id,
+    name: customer.name,
+    email: customer.email,
+    orders: customer.orders.length,
+    totalSpent: customer.orders.reduce(
+      (sum, order) => sum + order.total,
+      0
+    ),
+  }));
 };
