@@ -26,6 +26,7 @@ export const createPayment = async (data: PaymentInput) => {
 };
 
 export const getPayments = async () => {
+
     return await prisma.payment.findMany({
         include: {
             invoice: true,
@@ -34,4 +35,32 @@ export const getPayments = async () => {
             createdAt: "desc",
         },
     });
+
+};
+
+export const getPaymentById = async (id: string) => {
+
+    const payment = await prisma.payment.findUnique({
+        where: { id },
+        include: {
+            invoice: true,
+        },
+    });
+
+    if (!payment) {
+        throw new Error("Payment not found");
+    }
+
+    return payment;
+};
+
+export const deletePayment = async (id: string) => {
+
+    await prisma.payment.delete({
+        where: { id },
+    });
+
+    return {
+        message: "Payment deleted successfully",
+    };
 };
