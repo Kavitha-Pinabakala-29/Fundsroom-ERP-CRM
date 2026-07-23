@@ -1,32 +1,20 @@
 import express from "express";
 import cors from "cors";
-import userRoutes from "./routes/user.routes";
+import path from "path";
 
 import authRoutes from "./routes/auth.routes";
-
+import userRoutes from "./routes/user.routes";
 import customerRoutes from "./routes/customer.routes";
-
 import leadRoutes from "./routes/lead.routes";
-
 import dashboardRoutes from "./routes/dashboard.routes";
-
 import productRoutes from "./routes/product.routes";
-
 import stockRoutes from "./routes/stock.routes";
-
 import orderRoutes from "./routes/order.routes";
-
 import invoiceRoutes from "./routes/invoice.routes";
-
 import paymentRoutes from "./routes/payment.routes";
-
 import reportRoutes from "./routes/report.routes";
-
 import activityRoutes from "./routes/activity.routes";
-
-import path from "path";
 import uploadRoutes from "./routes/upload.routes";
-
 import emailRoutes from "./routes/email.routes";
 
 const app = express();
@@ -50,11 +38,10 @@ app.use("/api/activity", activityRoutes);
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 app.use("/api/upload", uploadRoutes);
-
 app.use("/api/email", emailRoutes);
 
-app.get("/", (req, res) => {
+app.get("/", (_req, res) => {
   res.send("Fundsroom ERP CRM Backend is running 🚀");
 });
 
-export default app; 
+export default app;

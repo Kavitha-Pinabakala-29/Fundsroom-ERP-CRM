@@ -1,56 +1,112 @@
 import prisma from "../config/prisma";
 
-export const getDashboard = async () => {
+export async function dashboardStats() {
 
-    const totalCustomers = await prisma.customer.count();
+  const customers = await prisma.customer.count();
 
-    const totalLeads = await prisma.lead.count();
+  const products = await prisma.product.count();
 
-    const newLeads = await prisma.lead.count({
-        where: {
-            status: "NEW",
-        },
-    });
+  const orders = await prisma.order.count();
 
-    const contactedLeads = await prisma.lead.count({
-        where: {
-            status: "CONTACTED",
-        },
-    });
+  const invoices = await prisma.invoice.count();
 
-    const qualifiedLeads = await prisma.lead.count({
-        where: {
-            status: "QUALIFIED",
-        },
-    });
+  const payments = await prisma.payment.count();
 
-    const negotiationLeads = await prisma.lead.count({
-        where: {
-            status: "NEGOTIATION",
-        },
-    });
+  const revenue = await prisma.payment.aggregate({
+    _sum: {
+      amount: true,
+    },
+  });
 
-    const wonLeads = await prisma.lead.count({
-        where: {
-            status: "WON",
-        },
-    });
+  return {
+    customers,
+    products,
+    orders,
+    invoices,
+    payments,
+    revenue: revenue._sum.amount ?? 0,
+  };
 
-    const lostLeads = await prisma.lead.count({
-        where: {
-            status: "LOST",
-        },
-    });
+}
 
-    return {
-        totalCustomers,
-        totalLeads,
-        newLeads,
-        contactedLeads,
-        qualifiedLeads,
-        negotiationLeads,
-        wonLeads,
-        lostLeads,
-    };
+export async function revenueChart() {
 
-};
+  const payments = await prisma.payment.findMany({
+    orderBy: {
+      createdAt: "asc",
+    },
+  });
+
+  return payments.map((payment) => ({
+    month: payment.createdAt.toLocaleDateString(
+      "en-US",
+      {
+        month: "short",
+      }
+    ),
+    revenue: payment.amount,
+  }));
+
+}
+
+export async function orderStatusChart() {
+
+  const pending = await prisma.order.count({
+    where: {
+      status: "PENDING",
+    },
+  });
+
+  const confirmed = await prisma.order.count({
+    where: {
+      status: "CONFIRMED",
+    },
+  });
+
+  const cancelled = await prisma.order.count({
+    where: {
+      status: "CANCELLED",
+    },
+  });
+
+  return [
+    {
+      name: "Pending",
+      value: pending,
+    },
+    {
+      name: "Confirmed",
+      value: confirmed,
+    },
+    {
+      name: "Cancelled",
+      value: cancelled,
+    },
+  ];
+
+}
+
+export async function recentOrders() {
+
+  return prisma.order.findMany({
+    include: {
+      customer: true,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    take: 5,
+  });
+
+}
+
+export async function recentCustomers() {
+
+  return prisma.customer.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+    take: 5,
+  });
+
+}
