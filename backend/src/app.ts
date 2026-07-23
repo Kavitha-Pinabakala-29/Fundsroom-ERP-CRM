@@ -16,6 +16,7 @@ import reportRoutes from "./routes/report.routes";
 import activityRoutes from "./routes/activity.routes";
 import uploadRoutes from "./routes/upload.routes";
 import emailRoutes from "./routes/email.routes";
+import notificationRoutes from "./routes/notification.routes";
 
 const app = express();
 
@@ -39,6 +40,8 @@ app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 app.use("/api/upload", uploadRoutes);
 app.use("/api/email", emailRoutes);
+
+app.use("/api/notifications", notificationRoutes);
 
 app.get("/", (_req, res) => {
   res.send("Fundsroom ERP CRM Backend is running 🚀");
