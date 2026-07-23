@@ -3,8 +3,11 @@ import { useEffect, useState } from "react";
 import MainLayout from "../../layouts/MainLayout";
 
 import UserTable from "../../components/users/UserTable";
+import AddUserModal from "../../components/users/AddUserModal";
 
-import { getUsers } from "../../services/userManagementService";
+import {
+  getUsers,
+} from "../../services/userManagementService";
 
 import type { User } from "../../types/userManagement";
 
@@ -15,18 +18,10 @@ export default function Users() {
 
   async function loadUsers() {
 
-    try {
+    const data =
+      await getUsers();
 
-      const data =
-        await getUsers();
-
-      setUsers(data);
-
-    } catch (err) {
-
-      console.log(err);
-
-    }
+    setUsers(data);
 
   }
 
@@ -46,9 +41,15 @@ export default function Users() {
 
       </h1>
 
-      <UserTable
-        users={users}
-      />
+      <AddUserModal />
+
+      <div className="mt-6">
+
+        <UserTable
+          users={users}
+        />
+
+      </div>
 
     </MainLayout>
 
