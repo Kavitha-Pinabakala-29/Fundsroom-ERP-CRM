@@ -5,4 +5,6 @@ export interface Customer {
   phone: string;
   company: string;
   createdAt: string;
+  status: string;
 }
+ 

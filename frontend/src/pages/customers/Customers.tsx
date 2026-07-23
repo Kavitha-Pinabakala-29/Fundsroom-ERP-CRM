@@ -1,38 +1,32 @@
 import { useEffect, useState } from "react";
 
 import MainLayout from "../../layouts/MainLayout";
-
 import { getCustomers } from "../../services/customerService";
 
 import type { Customer } from "../../types/customer";
 
 import CustomerTable from "../../components/customers/CustomerTable";
-
 import AddCustomerModal from "../../components/customers/AddCustomerModal";
 
 export default function Customers() {
-  console.log("Customers page rendered");
-
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [open, setOpen] = useState(false);
 
-  useEffect(() => {
-    console.log("useEffect running");
+  async function loadCustomers() {
+    try {
+      console.log("Calling API...");
 
-    async function loadCustomers() {
-      try {
-        console.log("Calling API...");
+      const data = await getCustomers();
 
-        const data = await getCustomers();
+      console.log("Customers API:", data);
 
-        console.log("Customers API:", data);
-
-        setCustomers(data);
-      } catch (err) {
-        console.error("API Error:", err);
-      }
+      setCustomers(data);
+    } catch (err) {
+      console.error(err);
     }
+  }
 
+  useEffect(() => {
     loadCustomers();
   }, []);
 
@@ -52,6 +46,7 @@ export default function Customers() {
       <AddCustomerModal
         open={open}
         onClose={() => setOpen(false)}
+        onSuccess={loadCustomers}
       />
 
       <CustomerTable customers={customers} />
