@@ -1,31 +1,27 @@
 import type { Lead } from "../types/lead";
 
-
-const API_URL =
-  "http://localhost:5000/api/leads";
+import api from "../api/axios";
 
 
-function getToken(){
+export const getLeads = async (): Promise<Lead[]> => {
 
-  return localStorage.getItem("token");
+  const res = await api.get("/leads");
 
-}
+  return res.data;
 
-
-export async function getLeads():Promise<Lead[]>{
-
-  const response = await fetch(API_URL,{
-    headers:{
-      Authorization:`Bearer ${getToken()}`
-    }
-  });
+};
 
 
-  if(!response.ok){
-    throw new Error("Failed to fetch leads");
-  }
 
+export const createLead = async (
+  data: any
+) => {
 
-  return response.json();
+  const res = await api.post(
+    "/leads",
+    data
+  );
 
-}
+  return res.data;
+
+};

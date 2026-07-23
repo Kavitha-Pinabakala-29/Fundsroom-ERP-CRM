@@ -8,12 +8,18 @@ import type { Lead } from "../../types/lead";
 
 import LeadTable from "../../components/leads/LeadTable";
 
+import AddLeadModal from "../../components/leads/AddLeadModal";
+
 
 function Leads() {
 
 
   const [leads, setLeads] =
     useState<Lead[]>([]);
+
+
+  const [open, setOpen] =
+    useState(false);
 
 
 
@@ -57,10 +63,28 @@ function Leads() {
 
 
       <button
+
+        onClick={() => setOpen(true)}
+
         className="mb-5 rounded bg-blue-600 px-4 py-2 text-white"
+
       >
+
         + Add Lead
+
       </button>
+
+
+
+      <AddLeadModal
+
+        open={open}
+
+        onClose={() => setOpen(false)}
+
+        onSuccess={loadLeads}
+
+      />
 
 
 
@@ -68,7 +92,8 @@ function Leads() {
 
         leads={leads}
 
-        onEdit={(lead)=>{
+
+        onEdit={(lead: Lead)=>{
 
           console.log(
             "Edit lead",
@@ -78,7 +103,8 @@ function Leads() {
         }}
 
 
-        onDelete={(lead)=>{
+
+        onDelete={(lead: Lead)=>{
 
           console.log(
             "Delete lead",
@@ -95,6 +121,7 @@ function Leads() {
   );
 
 }
+
 
 
 export default Leads;
