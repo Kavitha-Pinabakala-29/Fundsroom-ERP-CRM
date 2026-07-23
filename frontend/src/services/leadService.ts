@@ -37,5 +37,16 @@ export const updateLead = async (
   );
 
   return res.data;
+};
+
+export const deleteLead = async (
+  id: string
+) => {
+
+  const res = await api.delete(
+    `/leads/${id}`
+  );
+
+  return res.data;
 
 };

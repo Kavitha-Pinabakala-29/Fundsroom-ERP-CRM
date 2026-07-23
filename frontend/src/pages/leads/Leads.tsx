@@ -12,6 +12,7 @@ import AddLeadModal from "../../components/leads/AddLeadModal";
 
 import EditLeadModal from "../../components/leads/EditLeadModal";
 
+import DeleteLeadDialog from "../../components/leads/DeleteLeadDialog";
 
 function Leads() {
 
@@ -19,23 +20,20 @@ function Leads() {
   const [leads, setLeads] =
     useState<Lead[]>([]);
 
-
-
   const [open, setOpen] =
     useState(false);
-
-
 
   const [editOpen, setEditOpen] =
     useState(false);
 
-
-
   const [selectedLead, setSelectedLead] =
     useState<Lead | null>(null);
 
+  const [deleteOpen,setDeleteOpen] =
+  useState(false);
 
-
+  const [deleteLeadItem,setDeleteLeadItem] =
+  useState<Lead | null>(null);
 
   async function loadLeads(){
 
@@ -121,9 +119,12 @@ function Leads() {
 
       />
 
-
-
-
+      <DeleteLeadDialog
+        open={deleteOpen}
+        lead={deleteLeadItem}
+        onClose={()=>setDeleteOpen(false)}
+        onSuccess={loadLeads}
+      />
 
       <LeadTable
 
@@ -146,19 +147,10 @@ function Leads() {
 
 
 
-        onDelete={(lead: Lead)=>{
-
-
-          console.log(
-
-            "Delete lead",
-
-            lead
-
-          );
-
-
-        }}
+      onDelete={(lead: Lead)=>{
+        setDeleteLeadItem(lead);
+        setDeleteOpen(true);
+      }}
 
 
 
