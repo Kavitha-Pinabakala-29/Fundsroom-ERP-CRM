@@ -1,24 +1,25 @@
 import api from "../api/axios";
 
-import type { StockHistory } from "../types/stock";
-
-export const stockIn = async (data: any) => {
+export async function stockIn(data: {
+  productId: string;
+  quantity: number;
+}) {
   const res = await api.post("/stock/in", data);
   return res.data;
-};
+}
 
-export const stockOut = async (data: any) => {
+export async function stockOut(data: {
+  productId: string;
+  quantity: number;
+}) {
   const res = await api.post("/stock/out", data);
   return res.data;
-};
+}
 
-export const getStockHistory = async (
-  productId: string
-): Promise<StockHistory[]> => {
-
+export async function getHistory(productId: string) {
   const res = await api.get(
     `/stock/history/${productId}`
   );
 
   return res.data;
-};
+}
