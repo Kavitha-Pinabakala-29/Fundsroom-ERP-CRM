@@ -17,8 +17,8 @@ import activityRoutes from "./routes/activity.routes";
 import uploadRoutes from "./routes/upload.routes";
 import emailRoutes from "./routes/email.routes";
 import notificationRoutes from "./routes/notification.routes";
-
 import analyticsRoutes from "./routes/analytics.routes";
+import adminUserRoutes from "./routes/adminUser.routes";
 
 const app = express();
 
@@ -45,6 +45,7 @@ app.use("/api/email", emailRoutes);
 
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/analytics", analyticsRoutes);
+app.use("/api/admin/users", adminUserRoutes);
 
 app.get("/", (_req, res) => {
   res.send("Fundsroom ERP CRM Backend is running 🚀");
