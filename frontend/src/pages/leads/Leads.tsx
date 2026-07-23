@@ -6,12 +6,15 @@ import { getLeads } from "../../services/leadService";
 
 import type { Lead } from "../../types/lead";
 
+import LeadTable from "../../components/leads/LeadTable";
+
 
 function Leads() {
 
 
-  const [leads,setLeads] =
+  const [leads, setLeads] =
     useState<Lead[]>([]);
+
 
 
   async function loadLeads(){
@@ -46,49 +49,45 @@ function Leads() {
 
     <MainLayout>
 
+
       <h1 className="mb-6 text-3xl font-bold">
         Leads
       </h1>
 
 
-      <div className="rounded border p-4">
 
-        <p>
-          Total Leads: {leads.length}
-        </p>
-
-
-        {leads.map((lead)=>(
-
-          <div
-            key={lead.id}
-            className="border-b py-3"
-          >
-
-            <h2 className="font-semibold">
-              {lead.title}
-            </h2>
+      <button
+        className="mb-5 rounded bg-blue-600 px-4 py-2 text-white"
+      >
+        + Add Lead
+      </button>
 
 
-            <p>
-              Customer:
-              {" "}
-              {lead.customer.name}
-            </p>
+
+      <LeadTable
+
+        leads={leads}
+
+        onEdit={(lead)=>{
+
+          console.log(
+            "Edit lead",
+            lead
+          );
+
+        }}
 
 
-            <p>
-              Status:
-              {" "}
-              {lead.status}
-            </p>
+        onDelete={(lead)=>{
 
+          console.log(
+            "Delete lead",
+            lead
+          );
 
-          </div>
+        }}
 
-        ))}
-
-      </div>
+      />
 
 
     </MainLayout>
