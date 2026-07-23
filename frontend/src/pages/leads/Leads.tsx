@@ -10,6 +10,8 @@ import LeadTable from "../../components/leads/LeadTable";
 
 import AddLeadModal from "../../components/leads/AddLeadModal";
 
+import EditLeadModal from "../../components/leads/EditLeadModal";
+
 
 function Leads() {
 
@@ -18,8 +20,20 @@ function Leads() {
     useState<Lead[]>([]);
 
 
+
   const [open, setOpen] =
     useState(false);
+
+
+
+  const [editOpen, setEditOpen] =
+    useState(false);
+
+
+
+  const [selectedLead, setSelectedLead] =
+    useState<Lead | null>(null);
+
 
 
 
@@ -43,11 +57,13 @@ function Leads() {
 
 
 
+
   useEffect(()=>{
 
     loadLeads();
 
   },[]);
+
 
 
 
@@ -59,6 +75,7 @@ function Leads() {
       <h1 className="mb-6 text-3xl font-bold">
         Leads
       </h1>
+
 
 
 
@@ -76,6 +93,8 @@ function Leads() {
 
 
 
+
+
       <AddLeadModal
 
         open={open}
@@ -88,32 +107,63 @@ function Leads() {
 
 
 
+
+
+      <EditLeadModal
+
+        open={editOpen}
+
+        lead={selectedLead}
+
+        onClose={() => setEditOpen(false)}
+
+        onSuccess={loadLeads}
+
+      />
+
+
+
+
+
       <LeadTable
 
         leads={leads}
 
 
+
         onEdit={(lead: Lead)=>{
 
-          console.log(
-            "Edit lead",
-            lead
-          );
+
+          setSelectedLead(lead);
+
+
+          setEditOpen(true);
+
+
 
         }}
+
 
 
 
         onDelete={(lead: Lead)=>{
 
+
           console.log(
+
             "Delete lead",
+
             lead
+
           );
+
 
         }}
 
+
+
       />
+
 
 
     </MainLayout>
@@ -121,7 +171,5 @@ function Leads() {
   );
 
 }
-
-
 
 export default Leads;

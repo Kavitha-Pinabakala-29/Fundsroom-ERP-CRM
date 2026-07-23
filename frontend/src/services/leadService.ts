@@ -25,3 +25,17 @@ export const createLead = async (
   return res.data;
 
 };
+
+export const updateLead = async (
+  id: string,
+  data: any
+) => {
+
+  const res = await api.put(
+    `/leads/${id}`,
+    data
+  );
+
+  return res.data;
+
+};
