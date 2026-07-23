@@ -1,49 +1,36 @@
-import {
-  ResponsiveContainer,
-  LineChart,
-  Line,
-  XAxis,
-  Tooltip,
-} from "recharts";
-
-const data = [
-  { month: "Jan", revenue: 4000 },
-  { month: "Feb", revenue: 6200 },
-  { month: "Mar", revenue: 5400 },
-  { month: "Apr", revenue: 8800 },
-  { month: "May", revenue: 7600 },
-  { month: "Jun", revenue: 9200 },
-];
-
-function RevenueChart() {
+export default function RevenueChart({
+  data,
+}: any) {
   return (
-    <div className="rounded-2xl bg-white p-6 shadow h-80">
-
-      <h2 className="mb-5 text-xl font-semibold">
+    <div className="rounded-lg bg-white p-5 shadow">
+      <h2 className="mb-4 text-xl font-bold">
         Revenue
       </h2>
 
-      <ResponsiveContainer width="100%" height="90%">
+      {data.map((item: any) => (
+        <div
+          key={item.month}
+          className="mb-3"
+        >
+          <div className="flex justify-between">
+            <span>{item.month}</span>
 
-        <LineChart data={data}>
+            <span>₹ {item.revenue}</span>
+          </div>
 
-          <XAxis dataKey="month" />
-
-          <Tooltip />
-
-          <Line
-            type="monotone"
-            dataKey="revenue"
-            stroke="#2563eb"
-            strokeWidth={3}
-          />
-
-        </LineChart>
-
-      </ResponsiveContainer>
-
+          <div className="mt-1 h-3 rounded bg-gray-200">
+            <div
+              className="h-3 rounded bg-green-500"
+              style={{
+                width: `${Math.min(
+                  item.revenue / 1000,
+                  100
+                )}%`,
+              }}
+            />
+          </div>
+        </div>
+      ))}
     </div>
   );
 }
-
-export default RevenueChart;

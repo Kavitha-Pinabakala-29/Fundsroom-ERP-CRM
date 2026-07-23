@@ -8,3 +8,22 @@ export interface DashboardData {
   wonLeads: number;
   lostLeads: number;
 }
+
+export interface DashboardStats {
+  customers: number;
+  products: number;
+  orders: number;
+  invoices: number;
+  payments: number;
+  revenue: number;
+}
+
+export interface MonthlyRevenue {
+  month: string;
+  revenue: number;
+}
+
+export interface OrderStatus {
+  status: string;
+  count: number;
+}

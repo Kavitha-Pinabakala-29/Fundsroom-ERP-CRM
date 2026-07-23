@@ -1,69 +1,32 @@
-import toast from "react-hot-toast";
-
-import Modal from "../ui/Modal";
-
-import OrderForm from "./OrderForm";
-
-import { createOrder } from "../../services/orderService";
-
 type Props = {
   open: boolean;
   onClose: () => void;
-  onSuccess: () => void;
 };
 
 export default function AddOrderModal({
-
   open,
-
   onClose,
-
-  onSuccess,
-
 }: Props) {
-
-  async function handleSubmit(data: {
-    customerId: string;
-    items: {
-      productId: string;
-      quantity: number;
-    }[];
-  }) {
-
-    try {
-
-      await createOrder(data);
-
-      toast.success("Order Created");
-
-      onClose();
-
-      onSuccess();
-
-    } catch (err) {
-
-      console.log(err);
-
-      toast.error("Failed");
-
-    }
-
-  }
+  if (!open) return null;
 
   return (
+    <div className="fixed inset-0 flex items-center justify-center bg-black/40">
+      <div className="w-[500px] rounded-lg bg-white p-6">
+        <h2 className="mb-4 text-xl font-bold">
+          Add Order
+        </h2>
 
-    <Modal open={open}>
+        <p className="text-gray-500">
+          Order form will be added here.
+        </p>
 
-      <h2 className="mb-4 text-xl font-bold">
-
-        Create Order
-
-      </h2>
-
-      <OrderForm onSubmit={handleSubmit} />
-
-    </Modal>
-
+        <button
+          onClick={onClose}
+          className="mt-5 rounded bg-red-600 px-4 py-2 text-white"
+        >
+          Close
+        </button>
+      </div>
+    </div>
   );
-
 }

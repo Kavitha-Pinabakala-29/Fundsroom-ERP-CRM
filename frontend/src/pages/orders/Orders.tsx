@@ -2,17 +2,21 @@ import { useEffect, useState } from "react";
 
 import MainLayout from "../../layouts/MainLayout";
 
-import type { Order } from "../../types/order";
+import OrderTable from "../../components/orders/OrderTable";
+import AddOrderModal from "../../components/orders/AddOrderModal";
 
 import { getOrders } from "../../services/orderService";
 
-import OrderTable from "../../components/orders/OrderTable";
+import type { Order } from "../../types/order";
 
 export default function Orders() {
 
   const [orders, setOrders] = useState<Order[]>([]);
 
+  const [open, setOpen] = useState(false);
+
   async function loadOrders() {
+
     try {
 
       const data = await getOrders();
@@ -24,6 +28,7 @@ export default function Orders() {
       console.log(err);
 
     }
+
   }
 
   useEffect(() => {
@@ -33,36 +38,36 @@ export default function Orders() {
   }, []);
 
   return (
+
     <MainLayout>
 
-      <h1 className="mb-6 text-3xl font-bold">
-        Orders
-      </h1>
+      <div className="mb-6 flex items-center justify-between">
 
-      <button
-        className="mb-5 rounded bg-blue-600 px-4 py-2 text-white"
-      >
-        + Create Order
-      </button>
+        <h1 className="text-3xl font-bold">
+          Orders
+        </h1>
+
+        <button
+          onClick={() => setOpen(true)}
+          className="rounded bg-blue-600 px-4 py-2 text-white"
+        >
+          + Add Order
+        </button>
+
+      </div>
 
       <OrderTable
-
         orders={orders}
+      />
 
-        onEdit={(order: Order) => {
-
-          console.log("Edit", order);
-
-        }}
-
-        onDelete={(order: Order) => {
-
-          console.log("Delete", order);
-
-        }}
-
+      <AddOrderModal
+        open={open}
+        onClose={() => setOpen(false)}
+        onSuccess={loadOrders}
       />
 
     </MainLayout>
+
   );
+
 }

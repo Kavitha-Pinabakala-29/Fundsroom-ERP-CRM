@@ -2,57 +2,104 @@ import { useEffect, useState } from "react";
 
 import MainLayout from "../../layouts/MainLayout";
 
-import { getDashboard } from "../../services/dashboardService";
+import DashboardCards from "../../components/reports/DashboardCards";
 
-import type { DashboardData } from "../../types/dashboard";
+import RevenueChart from "../../components/dashboard/RevenueChart";
+
+import OrderStatusChart from "../../components/dashboard/OrderStatusChart";
+
+import RecentOrders from "../../components/dashboard/RecentOrders";
+
+import RecentCustomers from "../../components/dashboard/RecentCustomers";
+
+import {
+  getDashboard,
+  getRevenue,
+  getOrderStatus,
+  getRecentOrders,
+  getRecentCustomers,
+} from "../../services/dashboardService";
 
 export default function Dashboard() {
-  const [data, setData] = useState<DashboardData | null>(null);
 
-  const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState<any>({});
 
-  useEffect(() => {
-    async function loadDashboard() {
-      try {
-        const res = await getDashboard();
-        setData(res);
-      } catch (err) {
-        console.log(err);
-      } finally {
-        setLoading(false);
-      }
+  const [revenue, setRevenue] = useState([]);
+
+  const [status, setStatus] = useState([]);
+
+  const [orders, setOrders] = useState([]);
+
+  const [customers, setCustomers] = useState([]);
+
+  async function loadDashboard() {
+
+    try {
+
+      setStats(await getDashboard());
+
+      setRevenue(await getRevenue());
+
+      setStatus(await getOrderStatus());
+
+      setOrders(await getRecentOrders());
+
+      setCustomers(await getRecentCustomers());
+
     }
 
-    loadDashboard();
-  }, []);
+    catch (err) {
 
-  if (loading) {
-    return (
-      <MainLayout>
-        <h2>Loading Dashboard...</h2>
-      </MainLayout>
-    );
+      console.log(err);
+
+    }
+
   }
 
+  useEffect(() => {
+
+    loadDashboard();
+
+  }, []);
+
   return (
+
     <MainLayout>
-      <h1>Dashboard</h1>
 
-      <h3>Total Customers : {data?.totalCustomers}</h3>
+      <h1 className="mb-6 text-3xl font-bold">
 
-      <h3>Total Leads : {data?.totalLeads}</h3>
+        Dashboard
 
-      <h3>New Leads : {data?.newLeads}</h3>
+      </h1>
 
-      <h3>Contacted : {data?.contactedLeads}</h3>
+      <DashboardCards stats={stats} />
 
-      <h3>Qualified : {data?.qualifiedLeads}</h3>
+      <div className="mt-8 grid grid-cols-2 gap-6">
 
-      <h3>Negotiation : {data?.negotiationLeads}</h3>
+        <RevenueChart
+          data={revenue}
+        />
 
-      <h3>Won : {data?.wonLeads}</h3>
+        <OrderStatusChart
+          data={status}
+        />
 
-      <h3>Lost : {data?.lostLeads}</h3>
+      </div>
+
+      <div className="mt-8 grid grid-cols-2 gap-6">
+
+        <RecentOrders
+          orders={orders}
+        />
+
+        <RecentCustomers
+          customers={customers}
+        />
+
+      </div>
+
     </MainLayout>
+
   );
+
 }

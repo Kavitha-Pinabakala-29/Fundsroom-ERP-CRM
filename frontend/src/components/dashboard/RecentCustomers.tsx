@@ -1,6 +1,6 @@
-export default function RecentOrders({
+export default function RecentCustomers({
 
-  orders,
+  customers,
 
 }: any) {
 
@@ -10,7 +10,7 @@ export default function RecentOrders({
 
       <h2 className="mb-4 text-xl font-bold">
 
-        Recent Orders
+        Recent Customers
 
       </h2>
 
@@ -20,11 +20,9 @@ export default function RecentOrders({
 
           <tr>
 
-            <th>ID</th>
+            <th>Name</th>
 
-            <th>Customer</th>
-
-            <th>Total</th>
+            <th>Email</th>
 
           </tr>
 
@@ -34,25 +32,19 @@ export default function RecentOrders({
 
           {
 
-            orders.map((order: any) => (
+            customers.map((customer: any) => (
 
-              <tr key={order.id}>
+              <tr key={customer.id}>
 
                 <td>
 
-                  {order.id.slice(0, 8)}
+                  {customer.name}
 
                 </td>
 
                 <td>
 
-                  {order.customer.name}
-
-                </td>
-
-                <td>
-
-                  ₹ {order.total}
+                  {customer.email}
 
                 </td>
 

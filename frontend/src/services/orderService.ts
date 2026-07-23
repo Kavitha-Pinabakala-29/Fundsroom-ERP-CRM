@@ -1,63 +1,43 @@
 import api from "../api/axios";
 
-import type { Order } from "../types/order";
+export const getOrders = async () => {
+  const response = await api.get("/orders");
+  return response.data;
+};
 
-export async function getOrders(): Promise<Order[]> {
+export const createOrder = async (data: any) => {
+  const response = await api.post("/orders", data);
+  return response.data;
+};
 
-  const res = await api.get("/orders");
-
-  return res.data;
-
-}
-
-export async function createOrder(data: {
-
-  customerId: string;
-
-  items: {
-
-    productId: string;
-
-    quantity: number;
-
-  }[];
-
-}) {
-
-  const res = await api.post("/orders", data);
-
-  return res.data;
-
-}
-
-export async function updateOrderStatus(
-
+export const updateOrder = async (
   id: string,
-
-  status: string
-
-) {
-
-  const res = await api.patch(
-
-    `/orders/${id}/status`,
-
-    { status }
-
+  data: any
+) => {
+  const response = await api.patch(
+    `/orders/${id}`,
+    data
   );
 
-  return res.data;
+  return response.data;
+};
 
-}
-
-export async function deleteOrder(id: string) {
-
-  const res = await api.delete(
-
+export const deleteOrder = async (
+  id: string
+) => {
+  const response = await api.delete(
     `/orders/${id}`
-
   );
 
-  return res.data;
+  return response.data;
+};
 
-}
+export const getOrderById = async (
+  id: string
+) => {
+  const response = await api.get(
+    `/orders/${id}`
+  );
+
+  return response.data;
+};
