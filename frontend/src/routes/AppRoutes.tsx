@@ -11,6 +11,7 @@ import Payments from "../pages/payments/Payments";
 import Reports from "../pages/reports/Reports";
 import Activity from "../pages/activity/Activity";
 import Settings from "../pages/settings/Settings";
+import Stock from "../pages/stock/Stock";
 
 import ProtectedRoute from "./ProtectedRoute";
 
@@ -111,6 +112,16 @@ export default function AppRoutes() {
             </ProtectedRoute>
           }
         />
+
+        <Route
+          path="/stock"
+          element={
+            <ProtectedRoute>
+              <Stock />
+            </ProtectedRoute>
+          }
+        />
+        
       </Routes>
     </BrowserRouter>
   );

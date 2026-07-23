@@ -43,7 +43,7 @@ export default function Sidebar() {
         <NavLink to="/reports">Reports</NavLink><br />
         <NavLink to="/activity">Activity</NavLink><br />
         <NavLink to="/settings">Settings</NavLink><br />
-
+        <NavLink to="/stock">Stock</NavLink>
         <button
           onClick={handleLogout}
           className="mt-8 text-red-400"
