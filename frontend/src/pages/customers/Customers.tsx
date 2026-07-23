@@ -7,19 +7,22 @@ import type { Customer } from "../../types/customer";
 
 import CustomerTable from "../../components/customers/CustomerTable";
 import AddCustomerModal from "../../components/customers/AddCustomerModal";
+import EditCustomerModal from "../../components/customers/EditCustomerModal";
+import DeleteCustomerDialog from "../../components/customers/DeleteCustomerDialog";
 
 export default function Customers() {
   const [customers, setCustomers] = useState<Customer[]>([]);
+
   const [open, setOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+
+  const [selectedCustomer, setSelectedCustomer] =
+    useState<Customer | null>(null);
 
   async function loadCustomers() {
     try {
-      console.log("Calling API...");
-
       const data = await getCustomers();
-
-      console.log("Customers API:", data);
-
       setCustomers(data);
     } catch (err) {
       console.error(err);
@@ -49,7 +52,29 @@ export default function Customers() {
         onSuccess={loadCustomers}
       />
 
-      <CustomerTable customers={customers} />
+      <EditCustomerModal
+        open={editOpen}
+        customer={selectedCustomer}
+        onClose={() => setEditOpen(false)}
+        onSuccess={loadCustomers}
+      />
+
+      <DeleteCustomerDialog
+        open={deleteOpen}
+        onClose={() => setDeleteOpen(false)}
+      />
+
+      <CustomerTable
+        customers={customers}
+        onEdit={(customer) => {
+          setSelectedCustomer(customer);
+          setEditOpen(true);
+        }}
+        onDelete={(customer) => {
+          setSelectedCustomer(customer);
+          setDeleteOpen(true);
+        }}
+      />
     </MainLayout>
   );
 }
