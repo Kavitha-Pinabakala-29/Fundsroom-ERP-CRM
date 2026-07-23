@@ -15,6 +15,8 @@ import Stock from "../pages/stock/Stock";
 import Notifications from "../pages/notifications/Notifications";
 import ProtectedRoute from "./ProtectedRoute";
 
+import Analytics from "../pages/analytics/Analytics";
+
 export default function AppRoutes() {
   return (
     <BrowserRouter>
@@ -127,6 +129,15 @@ export default function AppRoutes() {
           element={
             <ProtectedRoute>
               <Notifications />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/analytics"
+          element={
+            <ProtectedRoute>
+              <Analytics />
             </ProtectedRoute>
           }
         />
