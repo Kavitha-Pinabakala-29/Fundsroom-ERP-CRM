@@ -1,12 +1,20 @@
 import { useEffect, useState } from "react";
+
 import MainLayout from "../../layouts/MainLayout";
+
 import { getCustomers } from "../../services/customerService";
+
 import type { Customer } from "../../types/customer";
+
+import CustomerTable from "../../components/customers/CustomerTable";
+
+import AddCustomerModal from "../../components/customers/AddCustomerModal";
 
 export default function Customers() {
   console.log("Customers page rendered");
 
   const [customers, setCustomers] = useState<Customer[]>([]);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     console.log("useEffect running");
@@ -30,29 +38,23 @@ export default function Customers() {
 
   return (
     <MainLayout>
-      <h1 className="text-3xl font-bold mb-6">Customers</h1>
+      <h1 className="mb-6 text-3xl font-bold">
+        Customers
+      </h1>
 
-      <table className="w-full border">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Company</th>
-          </tr>
-        </thead>
+      <button
+        onClick={() => setOpen(true)}
+        className="mb-5 rounded bg-blue-600 px-4 py-2 text-white"
+      >
+        + Add Customer
+      </button>
 
-        <tbody>
-          {customers.map((customer) => (
-            <tr key={customer.id}>
-              <td>{customer.name}</td>
-              <td>{customer.email}</td>
-              <td>{customer.phone}</td>
-              <td>{customer.company}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <AddCustomerModal
+        open={open}
+        onClose={() => setOpen(false)}
+      />
+
+      <CustomerTable customers={customers} />
     </MainLayout>
   );
 }
