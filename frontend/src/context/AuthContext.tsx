@@ -50,12 +50,12 @@ export function AuthProvider({
   }
 
   function logout() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
 
-    setToken(null);
-    setUser(null);
-  }
+  setToken(null);
+  setUser(null);
+}
 
   return (
     <AuthContext.Provider

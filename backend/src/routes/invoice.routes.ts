@@ -1,8 +1,8 @@
 import { Router } from "express";
 import {
-    create,
-    getAll,
-    pay
+  create,
+  getAll,
+  pay
 } from "../controllers/invoice.controller";
 
 import { authenticate } from "../middleware/auth.middleware";

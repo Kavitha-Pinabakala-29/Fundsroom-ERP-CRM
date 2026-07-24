@@ -13,6 +13,8 @@ import {
 } from "lucide-react";
 
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+
 
 const menus = [
   { name: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
@@ -27,51 +29,91 @@ const menus = [
   { name: "Settings", icon: Settings, path: "/settings" },
 ];
 
+
 function Sidebar() {
+
+
+  const { logout } = useAuth();
+
+
   return (
+
     <aside
       style={{
-        width: 250,
-        background: "#111827",
-        color: "white",
-        minHeight: "100vh",
-        padding: "20px",
+        width:250,
+        background:"#111827",
+        color:"white",
+        minHeight:"100vh",
+        padding:"20px",
       }}
     >
-      <h2 style={{ marginBottom: 30 }}>Fundsroom ERP</h2>
 
-      {menus.map((item) => (
+
+      <h2 style={{marginBottom:30}}>
+        Fundsroom ERP
+      </h2>
+
+
+
+      {menus.map((item)=>(
+
         <NavLink
+
           key={item.name}
+
           to={item.path}
+
           style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 12,
-            padding: "12px",
-            marginBottom: "8px",
-            color: "white",
+            display:"flex",
+            alignItems:"center",
+            gap:12,
+            padding:"12px",
+            marginBottom:"8px",
+            color:"white",
+            textDecoration:"none"
           }}
+
         >
-          <item.icon size={20} />
+
+          <item.icon size={20}/>
+
           {item.name}
+
+
         </NavLink>
+
       ))}
 
+
+
       <div
+
+        onClick={logout}
+
         style={{
-          marginTop: 40,
-          display: "flex",
-          alignItems: "center",
-          gap: 12,
-          cursor: "pointer",
+          marginTop:40,
+          display:"flex",
+          alignItems:"center",
+          gap:12,
+          cursor:"pointer",
         }}
+
       >
-        <LogOut size={20} />
+
+        <LogOut size={20}/>
+
         Logout
+
+
       </div>
+
+
+
     </aside>
+
   );
+
 }
+
 
 export default Sidebar;

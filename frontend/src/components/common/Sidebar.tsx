@@ -23,9 +23,9 @@ export default function Sidebar() {
 } = useAuth();
 
   const handleLogout = () => {
-    logout();
-    navigate("/login");
-  };
+  logout();
+  navigate("/login", { replace: true });
+};
 
   return (
     <aside className="w-64 h-screen bg-slate-900 text-white p-6">

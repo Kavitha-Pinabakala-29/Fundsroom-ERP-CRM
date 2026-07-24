@@ -1,34 +1,54 @@
 import { Request, Response } from "express";
-import { invoiceSchema } from "../validations/invoice.validation";
+
 import {
-    createInvoice,
-    getInvoices,
-    markPaid
+  createInvoice,
+  getInvoices,
+  markInvoicePaid,
 } from "../services/invoice.service";
 
-export const create = async (req: Request, res: Response) => {
+export async function create(
+  req: Request,
+  res: Response
+) {
+  try {
+    const invoice = await createInvoice(req.body);
 
-    try {
-        const data = invoiceSchema.parse(req.body);
-        res.status(201).json(await createInvoice(data));
-    } catch (err: any) {
-        res.status(400).json({ message: err.message });
-    }
+    res.status(201).json(invoice);
+  } catch (err: any) {
+    res.status(400).json({
+      message: err.message,
+    });
+  }
+}
 
-};
+export async function getAll(
+  _req: Request,
+  res: Response
+) {
+  try {
+    const invoices = await getInvoices();
 
-export const getAll = async (_req: Request, res: Response) => {
+    res.json(invoices);
+  } catch (err: any) {
+    res.status(500).json({
+      message: err.message,
+    });
+  }
+}
 
-    res.json(await getInvoices());
+export async function pay(
+  req: Request,
+  res: Response
+) {
+  try {
+    const invoice = await markInvoicePaid(
+      req.params.id
+    );
 
-};
-
-export const pay = async (req: Request<{ id: string }>, res: Response) => {
-
-    try {
-        res.json(await markPaid(req.params.id));
-    } catch (err: any) {
-        res.status(400).json({ message: err.message });
-    }
-
-};
+    res.json(invoice);
+  } catch (err: any) {
+    res.status(400).json({
+      message: err.message,
+    });
+  }
+}
