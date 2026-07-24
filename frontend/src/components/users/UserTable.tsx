@@ -1,40 +1,31 @@
-import type { User } from "../../types/userManagement";
+import { useState } from "react";
 
-type Props = {
-  users: User[];
-};
+import EditUserModal from "./EditUserModal";
 
 export default function UserTable({
   users,
-}: Props) {
-  return (
-    <div className="rounded-lg bg-white p-6 shadow">
+}: any) {
 
-      <h2 className="mb-5 text-xl font-bold">
-        Users
-      </h2>
+  const [selectedUser, setSelectedUser] =
+    useState<any>(null);
+
+  return (
+
+    <div className="rounded-lg bg-white p-5 shadow">
 
       <table className="w-full">
 
         <thead>
 
-          <tr className="border-b">
+          <tr>
 
-            <th className="py-2 text-left">
-              Name
-            </th>
+            <th>Name</th>
 
-            <th className="text-left">
-              Email
-            </th>
+            <th>Email</th>
 
-            <th className="text-left">
-              Role
-            </th>
+            <th>Role</th>
 
-            <th className="text-left">
-              Joined
-            </th>
+            <th>Action</th>
 
           </tr>
 
@@ -42,39 +33,59 @@ export default function UserTable({
 
         <tbody>
 
-          {users.map((user) => (
+          {
 
-            <tr
-              key={user.id}
-              className="border-b"
-            >
+            users.map((user: any) => (
 
-              <td className="py-3">
-                {user.name}
-              </td>
+              <tr key={user.id}>
 
-              <td>
-                {user.email}
-              </td>
+                <td>{user.name}</td>
 
-              <td>
-                {user.role}
-              </td>
+                <td>{user.email}</td>
 
-              <td>
-                {new Date(
-                  user.createdAt
-                ).toLocaleDateString()}
-              </td>
+                <td>{user.role}</td>
 
-            </tr>
+                <td>
 
-          ))}
+                  <button
+                    onClick={() =>
+                      setSelectedUser(user)
+                    }
+                    className="rounded bg-blue-600 px-3 py-1 text-white"
+                  >
+                    Edit
+                  </button>
+
+                </td>
+
+              </tr>
+
+            ))
+
+          }
 
         </tbody>
 
       </table>
 
+      {
+
+        selectedUser && (
+
+          <div className="mt-6 border-t pt-6">
+
+            <EditUserModal
+              user={selectedUser}
+            />
+
+          </div>
+
+        )
+
+      }
+
     </div>
+
   );
+
 }

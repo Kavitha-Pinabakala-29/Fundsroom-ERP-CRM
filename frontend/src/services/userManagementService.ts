@@ -16,3 +16,19 @@ export async function addUser(data: {
   const res = await api.post("/admin/users", data);
   return res.data;
 }
+
+export async function updateUser(
+  id: string,
+  data: {
+    name: string;
+    email: string;
+    role: string;
+  }
+) {
+  const res = await api.put(
+    `/admin/users/${id}`,
+    data
+  );
+
+  return res.data;
+}

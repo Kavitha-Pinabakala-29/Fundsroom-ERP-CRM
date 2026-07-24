@@ -40,3 +40,30 @@ export async function createUser(data: {
     },
   });
 }
+
+export async function updateUser(
+  id: string,
+  data: {
+    name: string;
+    email: string;
+    role: "ADMIN" | "SALES" | "WAREHOUSE" | "ACCOUNTS";
+  }
+) {
+  return prisma.user.update({
+    where: {
+      id,
+    },
+    data: {
+      name: data.name,
+      email: data.email,
+      role: data.role,
+    },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      role: true,
+      createdAt: true,
+    },
+  });
+}
