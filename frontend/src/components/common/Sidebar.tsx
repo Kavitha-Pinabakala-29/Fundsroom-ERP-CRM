@@ -17,7 +17,10 @@ import { useAuth } from "../../context/AuthContext";
 
 export default function Sidebar() {
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const {
+  logout,
+  user,
+} = useAuth();
 
   const handleLogout = () => {
     logout();
@@ -27,14 +30,41 @@ export default function Sidebar() {
   return (
     <aside className="w-64 h-screen bg-slate-900 text-white p-6">
 
-      <h1 className="text-3xl font-bold mb-10">
-        Fundsroom ERP
-      </h1>
+      <div className="mb-10">
+
+  <h1 className="text-3xl font-bold">
+
+    Fundsroom ERP
+
+  </h1>
+
+  <p className="mt-2 text-sm text-gray-300">
+
+    {user?.name}
+
+  </p>
+
+  <p className="text-xs text-gray-400">
+
+    {user?.role}
+
+  </p>
+
+</div>
 
       <nav className="space-y-2">
 
         <NavLink to="/dashboard">Dashboard</NavLink><br />
-        <NavLink to="/users">Users</NavLink><br />
+       {
+          user?.role === "ADMIN" && (
+            <>
+              <NavLink to="/users">
+                Users
+              </NavLink>
+              <br />
+            </>
+          )
+        }<br/>
         <NavLink to="/customers">Customers</NavLink><br />
         <NavLink to="/leads">Leads</NavLink><br />
         <NavLink to="/products">Products</NavLink><br />

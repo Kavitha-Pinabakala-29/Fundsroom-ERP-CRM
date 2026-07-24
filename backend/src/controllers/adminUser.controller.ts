@@ -24,7 +24,7 @@ export async function addUser(
 }
 
 export async function editUser(
-  req: Request,
+   req: Request<{ id: string }>,
   res: Response
 ) {
   const user = await updateUser(
@@ -36,7 +36,7 @@ export async function editUser(
 }
 
 export async function removeUser(
-  req: Request,
+   req: Request<{ id: string }>,
   res: Response
 ) {
   await deleteUser(req.params.id);

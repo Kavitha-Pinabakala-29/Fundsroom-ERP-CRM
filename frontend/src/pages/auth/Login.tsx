@@ -27,7 +27,7 @@ export default function Login() {
 
     console.log(res);
 
-    login(res.token);
+    login(res.token, res.user);
 
     toast.success("Login Successful");
 
