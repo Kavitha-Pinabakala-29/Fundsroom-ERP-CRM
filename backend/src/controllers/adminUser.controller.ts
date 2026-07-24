@@ -4,6 +4,7 @@ import {
   getUsers,
   createUser,
   updateUser,
+  deleteUser,
 } from "../services/adminUser.service";
 
 export async function getAllUsers(
@@ -32,4 +33,15 @@ export async function editUser(
   );
 
   res.json(user);
+}
+
+export async function removeUser(
+  req: Request,
+  res: Response
+) {
+  await deleteUser(req.params.id);
+
+  res.json({
+    message: "User deleted successfully",
+  });
 }

@@ -67,3 +67,11 @@ export async function updateUser(
     },
   });
 }
+
+export async function deleteUser(id: string) {
+  return prisma.user.delete({
+    where: {
+      id,
+    },
+  });
+}

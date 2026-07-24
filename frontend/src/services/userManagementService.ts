@@ -32,3 +32,13 @@ export async function updateUser(
 
   return res.data;
 }
+
+export async function deleteUser(
+  id: string
+) {
+  const res = await api.delete(
+    `/admin/users/${id}`
+  );
+
+  return res.data;
+}

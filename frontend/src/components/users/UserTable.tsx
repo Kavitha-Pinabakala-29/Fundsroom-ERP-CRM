@@ -2,6 +2,10 @@ import { useState } from "react";
 
 import EditUserModal from "./EditUserModal";
 
+import {
+  deleteUser,
+} from "../../services/userManagementService";
+
 export default function UserTable({
   users,
 }: any) {
@@ -9,9 +13,28 @@ export default function UserTable({
   const [selectedUser, setSelectedUser] =
     useState<any>(null);
 
+  async function handleDelete(
+    id: string
+  ) {
+
+    if (
+      !window.confirm(
+        "Delete this user?"
+      )
+    )
+      return;
+
+    await deleteUser(id);
+
+    alert("User deleted");
+
+    window.location.reload();
+
+  }
+
   return (
 
-    <div className="rounded-lg bg-white p-5 shadow">
+    <div className="rounded-lg bg-white p-6 shadow">
 
       <table className="w-full">
 
@@ -25,7 +48,7 @@ export default function UserTable({
 
             <th>Role</th>
 
-            <th>Action</th>
+            <th>Actions</th>
 
           </tr>
 
@@ -45,7 +68,7 @@ export default function UserTable({
 
                 <td>{user.role}</td>
 
-                <td>
+                <td className="space-x-2">
 
                   <button
                     onClick={() =>
@@ -54,6 +77,15 @@ export default function UserTable({
                     className="rounded bg-blue-600 px-3 py-1 text-white"
                   >
                     Edit
+                  </button>
+
+                  <button
+                    onClick={() =>
+                      handleDelete(user.id)
+                    }
+                    className="rounded bg-red-600 px-3 py-1 text-white"
+                  >
+                    Delete
                   </button>
 
                 </td>
@@ -72,7 +104,7 @@ export default function UserTable({
 
         selectedUser && (
 
-          <div className="mt-6 border-t pt-6">
+          <div className="mt-8 border-t pt-6">
 
             <EditUserModal
               user={selectedUser}
