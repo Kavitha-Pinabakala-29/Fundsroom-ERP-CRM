@@ -6,7 +6,15 @@ import UserTable from "../../components/users/UserTable";
 
 import AddUserModal from "../../components/users/AddUserModal";
 
-import { getUsers } from "../../services/userManagementService";
+import EditUserModal from "../../components/users/EditUserModal";
+
+import DeleteUserModal from "../../components/users/DeleteUserModal";
+
+import {
+  getUsers,
+  deleteUser,
+} from "../../services/userManagementService";
+
 
 export default function Users() {
 
@@ -16,7 +24,15 @@ export default function Users() {
 
   const [page, setPage] = useState(1);
 
+  const [selectedUser, setSelectedUser] =
+    useState<any>(null);
+
+  const [deleteTarget, setDeleteTarget] =
+    useState<any>(null);
+
+
   const rowsPerPage = 5;
+
 
   async function loadUsers() {
 
@@ -26,15 +42,14 @@ export default function Users() {
 
       setUsers(data);
 
-    }
+    } catch (error) {
 
-    catch (err) {
-
-      console.log(err);
+      console.log(error);
 
     }
 
   }
+
 
   useEffect(() => {
 
@@ -42,73 +57,130 @@ export default function Users() {
 
   }, []);
 
-  const filteredUsers = users.filter((user: any) =>
 
-    user.name
+
+  async function handleDelete() {
+
+    if (!deleteTarget)
+      return;
+
+
+    await deleteUser(deleteTarget.id);
+
+
+    setDeleteTarget(null);
+
+
+    loadUsers();
+
+  }
+
+
+
+  const filteredUsers =
+    users.filter((user:any)=>
+
+      user.name
       .toLowerCase()
       .includes(search.toLowerCase())
 
-    ||
+      ||
 
-    user.email
+      user.email
       .toLowerCase()
       .includes(search.toLowerCase())
 
-  );
+    );
 
-  const paginatedUsers = filteredUsers.slice(
 
-    (page - 1) * rowsPerPage,
 
-    page * rowsPerPage
+  const paginatedUsers =
+    filteredUsers.slice(
 
-  );
+      (page-1)*rowsPerPage,
+
+      page*rowsPerPage
+
+    );
+
+
 
   return (
 
     <MainLayout>
 
-      <div className="mb-6 flex items-center justify-between">
+
+      <div className="mb-6 flex justify-between items-center">
+
 
         <h1 className="text-3xl font-bold">
-
           User Management
-
         </h1>
 
-        <AddUserModal />
+
+        <AddUserModal
+          onSuccess={loadUsers}
+        />
+
 
       </div>
 
+
+
       <input
+
         className="mb-6 w-full rounded border p-2"
+
         placeholder="Search users..."
+
         value={search}
-        onChange={(e) =>
-          setSearch(e.target.value)
-        }
+
+        onChange={(e)=>{
+
+          setSearch(e.target.value);
+
+          setPage(1);
+
+        }}
+
       />
 
+
+
       <UserTable
+
         users={paginatedUsers}
+
+        onEdit={setSelectedUser}
+
+        onDelete={setDeleteTarget}
+
       />
+
+
 
       <div className="mt-6 flex gap-3">
 
-        <button
-          onClick={() =>
-            setPage(page - 1)
-          }
-          disabled={page === 1}
-          className="rounded bg-gray-300 px-4 py-2"
-        >
-          Previous
-        </button>
 
         <button
-          onClick={() =>
-            setPage(page + 1)
-          }
+
+          disabled={page===1}
+
+          onClick={()=>setPage(page-1)}
+
+          className="rounded bg-gray-300 px-4 py-2"
+
+        >
+
+          Previous
+
+        </button>
+
+
+
+        <button
+
+
           disabled={
             page >=
             Math.ceil(
@@ -116,12 +188,64 @@ export default function Users() {
               rowsPerPage
             )
           }
+
+
+          onClick={()=>setPage(page+1)}
+
           className="rounded bg-blue-600 px-4 py-2 text-white"
+
         >
+
           Next
+
         </button>
 
+
       </div>
+
+
+
+
+      {
+        selectedUser &&
+
+        <EditUserModal
+
+          user={selectedUser}
+
+          onSuccess={()=>{
+
+            setSelectedUser(null);
+
+            loadUsers();
+
+          }}
+
+          onClose={()=>setSelectedUser(null)}
+
+        />
+
+      }
+
+
+
+      {
+        deleteTarget &&
+
+
+        <DeleteUserModal
+
+          user={deleteTarget}
+
+          onConfirm={handleDelete}
+
+          onClose={()=>setDeleteTarget(null)}
+
+        />
+
+      }
+
+
 
     </MainLayout>
 

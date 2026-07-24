@@ -1,120 +1,146 @@
-import { useState } from "react";
-
-import EditUserModal from "./EditUserModal";
-
-import {
-  deleteUser,
-} from "../../services/userManagementService";
-
 export default function UserTable({
+
   users,
-}: any) {
 
-  const [selectedUser, setSelectedUser] =
-    useState<any>(null);
+  onEdit,
 
-  async function handleDelete(
-    id: string
-  ) {
+  onDelete,
 
-    if (
-      !window.confirm(
-        "Delete this user?"
-      )
-    )
-      return;
+}:any) {
 
-    await deleteUser(id);
-
-    alert("User deleted");
-
-    window.location.reload();
-
-  }
 
   return (
 
     <div className="rounded-lg bg-white p-6 shadow">
 
+
       <table className="w-full">
+
 
         <thead>
 
-          <tr>
 
-            <th>Name</th>
+          <tr className="border-b">
 
-            <th>Email</th>
 
-            <th>Role</th>
+            <th className="p-3 text-left">
+              Name
+            </th>
 
-            <th>Actions</th>
+
+            <th className="p-3 text-left">
+              Email
+            </th>
+
+
+            <th className="p-3 text-left">
+              Role
+            </th>
+
+
+            <th className="p-3 text-left">
+              Actions
+            </th>
+
 
           </tr>
 
+
         </thead>
+
+
 
         <tbody>
 
-          {
 
-            users.map((user: any) => (
+        {
 
-              <tr key={user.id}>
+          users.map((user:any)=>(
 
-                <td>{user.name}</td>
 
-                <td>{user.email}</td>
+            <tr
 
-                <td>{user.role}</td>
+              key={user.id}
 
-                <td className="space-x-2">
+              className="border-b"
 
-                  <button
-                    onClick={() =>
-                      setSelectedUser(user)
-                    }
-                    className="rounded bg-blue-600 px-3 py-1 text-white"
-                  >
-                    Edit
-                  </button>
 
-                  <button
-                    onClick={() =>
-                      handleDelete(user.id)
-                    }
-                    className="rounded bg-red-600 px-3 py-1 text-white"
-                  >
-                    Delete
-                  </button>
+            >
 
-                </td>
 
-              </tr>
+              <td className="p-3">
 
-            ))
+                {user.name}
 
-          }
+              </td>
+
+
+
+              <td className="p-3">
+
+                {user.email}
+
+              </td>
+
+
+
+              <td className="p-3">
+
+                {user.role}
+
+              </td>
+
+
+
+              <td className="p-3 space-x-2">
+
+
+
+                <button
+
+                  onClick={()=>onEdit(user)}
+
+                  className="rounded bg-blue-600 px-3 py-1 text-white"
+
+                >
+
+                  Edit
+
+                </button>
+
+
+
+
+                <button
+
+                  onClick={()=>onDelete(user)}
+
+                  className="rounded bg-red-600 px-3 py-1 text-white"
+
+                >
+
+                  Delete
+
+                </button>
+
+
+
+              </td>
+
+
+            </tr>
+
+
+          ))
+
+        }
+
 
         </tbody>
 
+
       </table>
 
-      {
-
-        selectedUser && (
-
-          <div className="mt-8 border-t pt-6">
-
-            <EditUserModal
-              user={selectedUser}
-            />
-
-          </div>
-
-        )
-
-      }
 
     </div>
 
